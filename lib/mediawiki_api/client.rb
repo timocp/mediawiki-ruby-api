@@ -32,6 +32,11 @@ module MediawikiApi
       @tokens = {}
     end
 
+    # pass HTTP basic auth headers with each request
+    def basic_auth(username, password)
+      @conn.basic_auth(username, password)
+    end
+
     def action(name, params = {})
       raw_action(name, params)
     rescue ApiError => e

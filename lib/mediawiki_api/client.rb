@@ -120,6 +120,14 @@ module MediawikiApi
       @conn.get '/w/index.php', action: 'raw', title: title
     end
 
+    # gets the content of a page (like get_wikitext, but via an API request).
+    # returns an empty string if the page doesn't exist
+    def get_content(title)
+      pages = prop('revisions', titles: title, rvprop: 'content').data['pages']
+      return '' if pages.key?('-1')
+      pages.values.first['revisions'].first['*']
+    end
+
     def list(type, params = {})
       subquery(:list, type, params)
     end
